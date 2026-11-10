@@ -1,35 +1,66 @@
 # ЛР-2. Компоненти, дерево компонентів і пропси
 
-Стартовий проєкт лабораторної роботи № 2 курсу «Розробка вебзастосунків на
-React»: сторінка «Команда проєкту». Інструкція:
-https://denysmatsevych.github.io/web-development-2026/react/labs/lab-2/
+Сторінка «Команда проєкту». Чотири компоненти: Header, Avatar, Profile, Card.
 
-У проєкті вже є налаштування ESLint і Prettier з ЛР-1, стилі сторінки
-(`src/index.css`), дані команди (`src/data.js`) і аватари
-(`public/avatars/`). Компоненти ви пишете самі, у теці `src/components/`.
+## Запуск і перевірки
 
-## Команди
+У корені react-labs: `npm install`. У теці lab-2:
 
-`npm install` виконуйте в корені репозиторію `react-labs`, решту — у теці
-`lab-2/`:
-
-- `npm run dev`: dev-сервер на http://localhost:5173
-- `npm run lint`: ESLint
-- `npm run format:check`: перевірка форматування Prettier
-- `npm run build`: production-збірка в `dist/`
+- `npm run dev`
+- `npm run lint`
+- `npm run format:check`
+- `npm run build`
 
 ## Дерево рендерингу
 
-Заповніть за вкладкою **Components ⚛** у React DevTools (§4.6).
+Схема за кодом; її потрібно звірити у React DevTools.
 
 ```text
 App
+├── Header
+├── Card «Тімлід»
+│   └── Avatar (size=120)
+└── Card «Команда»
+    ├── Profile (Олена Коваль)
+    │   └── Avatar
+    ├── Profile (Андрій Мельник)
+    │   └── Avatar
+    ├── Profile (Ірина Бондар)
+    │   └── Avatar
+    └── Profile (Максим Ткаченко)
+        └── Avatar
 ```
 
 ## Дерево залежностей модулів
 
-Заповніть за рядками `import` у файлах `src/` (§4.6).
-
 ```text
 main.jsx
+├── index.css
+└── App.jsx
+    ├── components/Header.jsx
+    ├── components/Avatar.jsx
+    ├── components/Profile.jsx
+    │   └── Avatar.jsx
+    ├── components/Card.jsx
+    └── data.js
 ```
+
+## Пояснення для захисту
+
+- Пропси передають дані від батьківського компонента до дочірнього.
+- `size={120}` передає число, а `size="120"` передає рядок.
+- `size = 64` працює, якщо size відсутній або undefined; null і 0 не замінюються.
+- Profile не передає size. Значення 64 задається всередині Avatar під час
+  деструктуризації, тому його немає серед переданих props у DevTools.
+- Card отримує вкладений JSX через children. JSX аватара тімліда створює App;
+  Card розміщує його у своєму вмісті. Власником цього JSX є App.
+- map створює чотири Profile; стабільний key береться з person.id.
+  key потрібен React і не доступний як звичайний проп компонента.
+- П'ять Avatar у дереві рендерингу — п'ять екземплярів одного компонента.
+  Два Avatar.jsx у схемі імпортів — два шляхи до одного модуля.
+- Зміна props у DevTools тимчасова: після оновлення повертаються дані з коду.
+
+## Використання AI
+
+AI-агент допоміг створити компоненти, схеми та виконати перевірки.
+Перед захистом потрібно розібрати кожен рядок коду.
