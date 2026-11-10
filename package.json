@@ -1,0 +1,6 @@
+{
+  "name": "react-labs",
+  "private": true,
+  "workspaces": ["lab-*"]
+}
+
