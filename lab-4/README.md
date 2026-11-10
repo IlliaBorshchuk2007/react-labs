@@ -30,11 +30,20 @@ https://denysmatsevych.github.io/web-development-2026/react/labs/lab-4/
 
 ```mermaid
 flowchart TD
-  App -->|"filterText, inStockOnly"| SearchBar
-  App -->|"menu, filterText, inStockOnly"| MenuTable
+  App -->|menu| FilterableMenuTable
   App --> CafeInfo
+  FilterableMenuTable -->|"filterText, inStockOnly"| SearchBar
+  FilterableMenuTable -->|"menu, filterText, inStockOnly"| MenuTable
   MenuTable -->|category| MenuCategory["MenuCategory × 3"]
   MenuCategory -->|item| MenuItemRow["MenuItemRow × 4, 3, 3"]
-  SearchBar -.->|"onFilterTextChange, onInStockOnlyChange"| App
-  App -.->|useEffect| LocalStorage[("localStorage")]
+  SearchBar -.->|"onFilterTextChange, onInStockOnlyChange"| FilterableMenuTable
+  FilterableMenuTable -.->|useEffect| LocalStorage[("localStorage")]
 ```
+
+## Колокація стану
+
+- **До:** `App`, `SearchBar`, `MenuTable`, `MenuCategory`, `MenuItemRow` і
+  `CafeInfo` рендерилися під час зміни фільтрів, тому що стан жив у `App`.
+- **Після:** `FilterableMenuTable`, `SearchBar`, `MenuTable`, `MenuCategory` і
+  `MenuItemRow` рендеряться під час зміни фільтрів. `App` і `CafeInfo` не
+  рендеряться, бо стан розміщено ближче до компонентів, які його використовують.
